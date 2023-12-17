@@ -1,0 +1,69 @@
+function [Q,bestvar,bestvarG,fitness,sol,vmedio,desviop,desvioabs,minimo,maximo,minG,maxG]=...
+    inicializa(n,Ngen,A0,r0,alpha,gama,optim,Qmin,Qmax,epsilon,d,Fperi,Fperf,adaptive,hibrid,Lb,Ub,A,r)
+    % param4=[Q,bestvar,bestvarG,fitness,sol,vmedio,desviop,desvioabs];
+    % param5=[minimo,maximo,minG,maxG];
+    
+% n=param1(1,1); %dimensao da populacao
+% Ngen=param1(1,2);  %numero de geracoes
+% A0=param1(1,3);  %intensidade (loudness, constante ou crescente)
+% r0=param1(1,4);  %taxa de impulsos (pulse rate, constante ou decrescente)
+% alpha=param1(1,5); 
+% gama=param1(1,6);
+% optim=param1(1,7);
+
+
+% Qmin=param2(1,1);Qmax=param2(1,2); %fre min e max
+% epsilon=param2(1,3); %factor de escala
+% d=param2(1,4); %dimensao das variaveis de projecto
+% Fperi=param2(1,5);
+% Fperf=param2(1,6);
+% adaptive=param2(1,7);
+% hidrid=param2(1,8);
+
+% Lb=param3(1,1);
+% Ub=param3(1,2);
+% A=param3(1,3);
+% r=param3(1,4);
+
+Q=zeros(1,n);
+bestvar=zeros(Ngen,d);bestvarG=zeros(Ngen,d);
+fitness=zeros(1,n); sol=zeros(n,d);
+vmedio=zeros(1,Ngen); desviop=zeros(1,Ngen); desvioabs=zeros(1,Ngen);
+
+for i=1:n
+    for j=1:d
+        aleat=rand;
+        sol(i,j)=Lb(1,j)+(Ub(1,j)-Lb(1,j))*aleat;
+    end
+end
+
+for i= 1:n
+    for j=1:d-1
+%         fitness(1,i)=fitness(1,i)+100*(sol(i,j+1)-sol(i,j)^2)^2+(sol(i,j)-1)^2; %Rosenbrock function
+          fitness(1,i)=fitness(1,i)+sol(i,j+1)^2-sol(i,j)^2-2; %Sphere R=sqrt(2)
+    end
+end
+
+minimo=zeros(1,Ngen);maximo=zeros(1,Ngen);minG=zeros(1,Ngen);maxG=zeros(1,Ngen);
+minimo(1,1)=fitness(1,1);maximo(1,1)=fitness(1,1);
+
+for i=2:n
+    if strcmp(optim,'m') && fitness(1,i)<=fitness(1,i-1)
+        minimo(1,1)=fitness(1,i);
+        bestvar(1,1:d)=sol(i,1:d);
+    elseif strcmp(optim,'M') && fitness(1,i)>=fitness(1,i-1)
+        maximo(1,1)=fitness(1,i);
+        bestvar(1,1:d)=sol(i,1:d);
+    end
+end
+
+minG(1,1)=minimo(1,1);
+maxG(1,1)=maximo(1,1);
+bestvarG(1,1:d)=bestvar(1,1:d);
+
+vmedio(1,1)=mean(fitness);desviop(1,1)=std(fitness);
+
+% param4=[Q,bestvar,bestvarG,fitness,sol,vmedio,desviop,desvioabs];
+% param5=[minimo,maximo,minG,maxG];
+
+end

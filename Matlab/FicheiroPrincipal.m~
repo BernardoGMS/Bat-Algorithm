@@ -1,0 +1,36 @@
+clc
+clear all
+close all
+warning('off','all')
+
+delete DistM
+delete DiffMX
+delete DiffMY
+
+choice=2;
+
+
+
+if choice==1
+    
+   [SU,SV,SW,SX,SY,Dx,Dxx,Dy,Dyy,Dxy,CXY,K,ff,AA,omega,modo]=Points;
+elseif choice==2
+    
+    %Funcao---> 1. SANDWICH; FGM; 3. VIBRACOES LIVRES
+   
+    funcao=1; save funcao
+    
+    [A11,A12,A13,A14,A15,A21,A22,A23,A24,A25,A31,A32,A33,A34,A35,A41,A42,A43,A44,A45,A51,A52,A53,A54,A55...
+                ,B11,B12,B13,B21,B22,B23,B31,B32,B33...
+                ,D11,D12,D13,D21,D22,D23,D31,D32,D33,MASSA0,MASSA1,MASSA2,k,E,h,AA,Ax,Ay,Axx,Ayy,Axy,NT,NF,XNDF,N,A,B,D]=Points_BAT;
+            
+    [Q,bestvar,bestvarG,fitness,sol,vmedio,desviop,desvioabs,minimo,maximo,Ngen,minG,maxG,optim,BEST]=BAT_algorithm(A11,A12,A13,A14,A15,A21,A22,A23,A24,A25,A31,A32,A33,A34,A35,A41,A42,A43,A44,A45,A51,A52,A53,A54,A55...
+                ,B11,B12,B13,B21,B22,B23,B31,B32,B33...
+                ,D11,D12,D13,D21,D22,D23,D31,D32,D33,MASSA0,MASSA1,MASSA2,k,E,h,AA,Ax,Ay,Axx,Ayy,Axy,NT,NF,XNDF,N,A,B,D);
+            
+            MASSAF=MASSA0(bestvarG(end,1),bestvarG(end,2));
+           fprintf('MASSA: %6.4f\n',MASSAF);
+            
+end
+
+clear choice

@@ -1,0 +1,15 @@
+function DistanceMatrix
+
+N=25;
+L=2;
+
+xy=zeros(N,2);
+
+for i=1:N
+xy(i,1)=-L/2+rand*L;
+xy(i,2)=-L/2+rand*L;
+end
+
+
+
+end

@@ -1,0 +1,13 @@
+clc
+clear all
+
+choice=1;
+
+if choice==1
+    id=w.identifier;
+    warming('off',id)
+    rmpath('folderthatisnotonpath');
+   [SU,SX,SY,teste,teste2]=Points;
+end
+
+clear choice
